@@ -4,9 +4,21 @@
     <title>Code Quality Auditor</title>
 </head>
 <body>
-    <h1>Welcome to Code Quality Auditor</h1>
+    <h1>Code Quality Auditor</h1>
+
+    <!-- Lint Button -->
     <form action="/run-lint" method="post">
-        <button type="submit">Run Lint Check</button>
+        <button type="submit">Run Lint</button>
     </form>
+
+    <!-- Test Button -->
+    <form action="/run-tests" method="post">
+        <button type="submit">Run Tests</button>
+    </form>
+
+    {% if result %}
+        <h3>Output:</h3>
+        <pre>{{ result }}</pre>
+    {% endif %}
 </body>
 </html>
