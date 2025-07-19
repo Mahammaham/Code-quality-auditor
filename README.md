@@ -1,22 +1,16 @@
-# Code-quality-auditor
-import os
+# Code Quality Auditor
 
-def analyze_code(filename):
-    with open(filename, 'r') as f:
-        lines = f.readlines()
+## 📌 Purpose
+A Python-based tool to demonstrate how to write clean code and test it using quality standards.
 
-    total_lines = len(lines)
-    comment_lines = len([l for l in lines if '#' in l])
-    blank_lines = len([l for l in lines if l.strip() == ""])
-    function_count = len([l for l in lines if l.strip().startswith("def ")])
+## 🚀 How to Run
 
-    print(f"📄 File: {filename}")
-    print(f"🔢 Total lines: {total_lines}")
-    print(f"💬 Comment lines: {comment_lines}")
-    print(f"⬜ Blank lines: {blank_lines}")
-    print(f"🧠 Functions: {function_count}")
-    print("-" * 40)
+1. Clone the repo
+2. Install dependencies:
 
-# Example usage
-analyze_code("test.py")
+## ✅ Tools Used
+- Python
+- Pytest
+- Pylint
+- GitHub
 
