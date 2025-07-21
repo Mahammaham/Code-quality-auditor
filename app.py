@@ -74,4 +74,5 @@ def download_pdf():
     return send_file("uploads/report.pdf", as_attachment=True)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5050)
+

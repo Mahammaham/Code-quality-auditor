@@ -4,102 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Code Quality Auditor</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Roboto', sans-serif;
-    }
-
-    body {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .container {
-      background-color: white;
-      padding: 30px 40px;
-      border-radius: 15px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      width: 100%;
-      max-width: 600px;
-      text-align: center;
-    }
-
-    h1 {
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    input[type="file"] {
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-
-    button {
-      background-color: #667eea;
-      color: white;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background-color: #5a67d8;
-    }
-
-    .output {
-      margin-top: 20px;
-      text-align: left;
-      white-space: pre-wrap;
-      background-color: #f9f9f9;
-      padding: 15px;
-      border-radius: 10px;
-    }
-
-    .footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #888;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <div class="container">
-    <h1>📂 Code Quality Auditor</h1>
+    <h1>🧠 Code Quality Auditor</h1>
+
     <form method="POST" enctype="multipart/form-data">
+      <label for="file">📂 Upload Python File:</label>
       <input type="file" name="file" accept=".py" required>
-      <br>
-      <button type="submit">Upload & Audit Code</button>
+      <button type="submit">🔍 Analyze</button>
     </form>
 
-    {% if score %}
-      <div class="output">
-        <h3>🔢 Score: {{ score }}/100</h3>
-        <h4>🛠️ Recommendations:</h4>
-        <ul>
-          {% for r in recommendations %}
-            <li>{{ r }}</li>
-          {% endfor %}
-        </ul>
-        <h4>📄 Detailed Output:</h4>
-        <pre>{{ result }}</pre>
-        <br>
-        <a href="/download-pdf" target="_blank">
-          <button type="button">Download PDF Report</button>
-        </a>
-      </div>
-    {% endif %}
+    {% if report %}
+    <div class="result">
+      <h2>📋 Audit Summary</h2>
+      <p><strong>Score:</strong> {{ report.score }}/10</p>
+      <p><strong>Total Issues:</strong> {{ report.total_issues }}</p>
 
-    <div class="footer">© 2025 Code Auditor</div>
+      <h3>📌 Issues Found:</h3>
+      <ul>
+        {% for issue in report.issues %}
+          <li>📎 <strong>{{ issue.type }}</strong> on line {{ issue.line }}: {{ issue.message }}</li>
+        {% endfor %}
+      </ul>
+
+      <form method="POST" action="/download">
+        <input type="hidden" name="json_data" value="{{ report | tojson }}">
+        <button type="submit">⬇️ Download PDF Report</button>
+      </form>
+    </div>
+    {% endif %}
   </div>
 </body>
 </html>
